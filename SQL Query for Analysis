@@ -26,7 +26,7 @@ SELECT
 FROM
   `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 
-Now that we know the total amount of debt in total is over 3 million USD, let’s determine the country with the highest debt. This will help us understand more about the country and its socio-economic scenarios. We will use the SUM function to total the debts and then group the results by countries.
+Now that we know the total amount of debt in total is over 3 million USD, let’s determine the top 10 countries with the highest debt. This will help us understand more about each of the countries and its socio-economic scenarios. We will use the SUM function to total the debts and then group the results by countries. 
 SELECT
   country_name,
   SUM(debt) AS total_debt_country_USD
