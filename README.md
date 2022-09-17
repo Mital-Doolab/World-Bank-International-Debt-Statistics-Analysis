@@ -15,17 +15,17 @@ Analysis of International debt statistics to learn about:
 * Tableau (to create data visualizations)
 
 ### Installing
-* Datasets will be downloaded from [World Bank International Debt Dataset.csv] (https://github.com/Mital-Doolab/World-Bank-International-Debt-Statistics-Analysis/blob/main/World%20Bank%20International%20Debt%20Dataset.csv)
+* Datasets will be downloaded from [World Bank International Debt Dataset.csv](https://github.com/Mital-Doolab/World-Bank-International-Debt-Statistics-Analysis/blob/main/World%20Bank%20International%20Debt%20Dataset.csv)
 * Download International Debt Statistics dataset from 1970-2015
 
 ### Executing the Program
 * View datasets in Excel 
 * Open BigQuery
-* Follow [SQL queries] (https://github.com/Mital-Doolab/World-Bank-International-Debt-Statistics-Analysis/blob/main/SQL%20Query%20for%20Analysis) provided to perform data analysis
+* Follow [SQL queries](https://github.com/Mital-Doolab/World-Bank-International-Debt-Statistics-Analysis/blob/main/SQL%20Query%20for%20Analysis) provided to perform data analysis
 
 ## Help
-* Use The [Work Bank Metadata Glossary] (​​https://databank.worldbank.org/metadataglossary/international-debt-statistics/series/viewall) for deeper understanding of Debt Indicator Codes.
+* Use The [Work Bank Metadata Glossary](​​https://databank.worldbank.org/metadataglossary/international-debt-statistics/series/viewall) for deeper understanding of Debt Indicator Codes.
 
 ## License 
-* Datasets was made available by [The World Bank]  (https://www.worldbank.org/en/home)
+* Datasets was made available by [The World Bank](https://www.worldbank.org/en/home)
 
