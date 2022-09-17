@@ -1,85 +1,89 @@
-The SQL query below will be used to view the international_debt database. We will select all columns to view but limit the output to only 10 rows to keep the output clean.
+-- The SQL query below will be used to view The World Bank International Debt database. We will select all columns to view but will limit the output to only 10 records to keep the output clean.
 SELECT
-  *
+ 	*
 FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 LIMIT
-  10
- 
-From the preview of the data we can see that each country has different debt indicators meaning each country most likely will have multiple records with more than one debt indicator. We want to find out how many unique countries there are in our data set before we start performing our statistical analysis. We will use the COUNT function to count the number of countries and use the DISTINCT function to eliminate counting duplicates.
-SELECT
-  COUNT(DISTINCT country_name) AS distinct_countries_total
-FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
- 
-Now that we know there are 124 distinct countries there are in our data let’s determine how many unique debt indicators there are. We will use the DISTINCT function to determine this information.
-SELECT
-  DISTINCT(indicator_code) AS distinct_debt_indicator
-FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
-ORDER BY
-  distinct_debt_indicator
- 
-Now that we have determined there are 25 debt indicators, let’s analyze the total amount of debt (in USD) that is owed in total by the different countries.
-SELECT
-  ROUND(SUM(debt)/1000000, 2) AS total_debt_USD
-FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+ 	10;
 
-Now that we know the total amount of debt in total is over 3 million USD, let’s determine the top 10 countries with the highest debt. This will help us understand more about each of the countries and its socio-economic scenarios. We will use the SUM function to total the debts and then group the results by countries. 
+-- From the preview of the data we can see that each country has different debt indicators meaning each country most likely will have multiple records with more than one debt indicator. We want to find out how many unique countries there are in our dataset before we start performing our statistical analysis. We will use the COUNT function to count the number of countries and use the DISTINCT function to eliminate counting duplicates.
 SELECT
-  country_name,
-  SUM(debt) AS total_debt_country_USD
+COUNT(DISTINCT country_name) AS distinct_countries_total
 FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
-GROUP BY
-  country_name
-ORDER BY
-  total_debt_country_USD DESC
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`;
 
-In our last query, we learned that China has the highest debt. Let’s analyze to determine the average debt across the debt indicators.
+-- Now that we know there are 124 distinct countries in our dataset, let’s determine how many unique debt indicators are in the dataset. We will use the DISTINCT function to list all debt indicators and eliminate any duplicates. 
 SELECT
-  AVG(debt) AS AVG_debt,
-  indicator_code AS debt_indicator,
-  indicator_name
+ 	DISTINCT(indicator_code) AS distinct_debt_indicator
 FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
-GROUP BY
-  debt_indicator,
-  indicator_name
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 ORDER BY
-  AVG_debt DESC
- 
- From our above analysis we learn that the debt indicator “DT.AMT.DLXF.CD” has the highest average debt. This code is for the category that includes payment of long term debts. In other words, to get immediate capital these countries take on long-term debt. Let’s analyze our data to determine which country owes the highest amount of debt in the category of long term debts (DT.AMT.DLXF.CD).
+ 	distinct_debt_indicator;
+
+-- Now that we have determined there are 25 unique debt indicators, let’s analyze the total amount of debt (in USD) that is owed in total by the different countries.
 SELECT
-  country_name,
-  indicator_name
+ROUND(SUM(debt)/1000000, 2) AS total_debt_USD
 FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+`my-practice-project-344519.World_Bank_international_debt_data.international_debt`;
+
+-- Now that we know that the total amount of debt is over 3 million USD, let’s determine the top 10 countries with the highest total international debt. This will help us understand more about the country and its socio-economic scenarios. We will use the SUM function to total the debts and then GROUP BY country_name. The result will share the total debt of all debt indicators. We will only output the top 10 countries with the highest total international debt. After running our query we will import our data table as a CSV file and then use Tableau to create a data visualization to better understand the data.  
+SELECT
+country_name,
+SUM(debt) AS total_debt_country_USD
+FROM
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+GROUP BY
+ 	country_name
+ORDER BY
+ 	total_debt_country_USD DESC
+LIMIT
+10;
+
+-- In our last query, we learned that China has the highest total international debt. Next, let’s analyze our data to determine what is the average debt across the debt indicators. We will limit our answer to the top 10 highest average debt indicators. After running our query we will import our data table as a CSV file and then use Tableau to create a data visualization to better understand the data. 
+SELECT
+ 	AVG(debt) AS AVG_debt,
+ 	indicator_code AS debt_indicator,
+ 	indicator_name
+FROM
+ `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+GROUP BY
+debt_indicator,
+ 	indicator_name
+ORDER BY
+ 	AVG_debt DESC
+LIMIT 
+10;
+
+-- From our above analysis we learn that the debt indicator “DT.AMT.DLXF.CD” has the highest average debt. This code is for the category that includes payment of long term debts. In other words, to get immediate capital, countries take on long-term debt. Let’s analyze our data to determine which country owes the highest amount of debt in the category of long term debts (DT.AMT.DLXF.CD). 
+SELECT
+ 	country_name,
+ 	indicator_name
+FROM
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 WHERE
-  debt = 
-  (
-  SELECT
-    MAX(debt)
-  FROM
-    `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
-  WHERE
-    indicator_code = 'DT.AMT.DLXF.CD'
-    )
+ 	debt = 
+ 		(
+ 		   SELECT
+   	MAX(debt)
+    FROM
+`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+    WHERE
+indicator_code = “DT.AMT.DLXF.CD”
+ );
 
-From our previous analysis, we examined that China has the highest debt for the indicator_code DT.AMT.DLXF.CD (long term debts). Now, let’s analyze our data to determine the most common indicator in which the countries owe their debt.
+-- From our previous analysis, we examined that China has the highest debt for the debt indicator_code DT.AMT.DLXF.CD. Now, let’s analyze our data to determine the most common debt indicator in which the countries owe their debt. 
 SELECT
-  indicator_code,
-  COUNT(indicator_code) AS common_indicator
+Indicator_code,
+COUNT(indicator_code) AS common_indicator
 FROM
-  `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
+ 	`my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 GROUP BY
-  indicator_code
+ 	indicator_code
 ORDER BY
-  common_indicator DESC,
-  indicator_code DESC
+common_indicator DESC,
+indicator_code DESC;
 
-Next,let’s analyze our data to determine the maximum debt of each country and order the results from highest debt to lowest debt.
+-- Finally, let’s analyze our data to determine the amount of the maximum debt indicator of each country and order the results in descending order. NOTE: This query will calculate the maximum debt across all debt indicators per country not total debt per country which was analyzed earlier. We will limit our result to only include the top 10 countries. After running our query we will import our data table as a CSV file and then use Tableau to create a data visualization to better understand the data. 
 SELECT
   DISTINCT country_name,
   MAX(debt) OVER(PARTITION BY country_name) AS max_debt
@@ -87,3 +91,5 @@ FROM
   `my-practice-project-344519.World_Bank_international_debt_data.international_debt`
 ORDER BY
   max_debt DESC
+LIMIT 
+10; 
